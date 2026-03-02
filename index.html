@@ -102,22 +102,22 @@
         </svg>
       </button>
     </div>
-
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-16 bg-stone-900/98 backdrop-blur-lg">
-      <div class="flex flex-col items-center justify-center gap-8 h-full -mt-16">
-        <a href="#features" class="mobile-link text-2xl font-heading font-bold text-white">Features</a>
-        <a href="#pricing" class="mobile-link text-2xl font-heading font-bold text-white">Memberships & Pricing</a>
-        <a href="#gallery" class="mobile-link text-2xl font-heading font-bold text-white">Gallery</a>
-        <a href="#team" class="mobile-link text-2xl font-heading font-bold text-white">Team</a>
-        <a href="#contact" class="mobile-link text-2xl font-heading font-bold text-white">Contact</a>
-        <a href="https://book.runswiftapp.com/facilities/indie-sportsplex" target="_blank" rel="noopener"
-           class="bg-red-700 hover:bg-red-800 text-white font-bold text-lg px-8 py-3 rounded-lg transition-colors mt-4">
-          Book Now
-        </a>
-      </div>
-    </div>
   </nav>
+
+  <!-- Mobile Menu Overlay (z-40, below nav z-50 so hamburger is always on top) -->
+  <div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-stone-900">
+    <div class="flex flex-col items-center justify-center gap-8 h-full">
+      <a href="#features" class="mobile-link text-2xl font-heading font-bold text-white">Features</a>
+      <a href="#pricing" class="mobile-link text-2xl font-heading font-bold text-white">Memberships & Pricing</a>
+      <a href="#gallery" class="mobile-link text-2xl font-heading font-bold text-white">Gallery</a>
+      <a href="#team" class="mobile-link text-2xl font-heading font-bold text-white">Team</a>
+      <a href="#contact" class="mobile-link text-2xl font-heading font-bold text-white">Contact</a>
+      <a href="https://book.runswiftapp.com/facilities/indie-sportsplex" target="_blank" rel="noopener"
+         class="bg-red-700 hover:bg-red-800 text-white font-bold text-lg px-8 py-3 rounded-lg transition-colors mt-4">
+        Book Now
+      </a>
+    </div>
+  </div>
 
   <!-- ========== HERO ========== -->
   <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -551,16 +551,21 @@
     const navbar = document.getElementById('navbar');
     const hero = document.getElementById('hero');
     const navLinks = document.querySelectorAll('.nav-link');
+    const menuToggle = document.getElementById('menu-toggle');
 
     const heroObserver = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         navbar.classList.remove('bg-white/95', 'backdrop-blur', 'shadow-md');
         navbar.classList.add('bg-transparent');
         navLinks.forEach(l => { l.classList.remove('text-stone-700', 'hover:text-stone-900'); l.classList.add('text-white/80', 'hover:text-white'); });
+        menuToggle.classList.remove('text-stone-700');
+        menuToggle.classList.add('text-white');
       } else {
         navbar.classList.add('bg-white/95', 'backdrop-blur', 'shadow-md');
         navbar.classList.remove('bg-transparent');
         navLinks.forEach(l => { l.classList.add('text-stone-700', 'hover:text-stone-900'); l.classList.remove('text-white/80', 'hover:text-white'); });
+        menuToggle.classList.add('text-stone-700');
+        menuToggle.classList.remove('text-white');
       }
     }, { threshold: 0.1 });
     heroObserver.observe(hero);
@@ -574,7 +579,6 @@
     });
 
     // --- Mobile Menu ---
-    const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
